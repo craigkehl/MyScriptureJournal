@@ -1,0 +1,66 @@
+﻿@page
+@model MyScriptureJournal.Pages.Notes.IndexModel
+
+@{
+    ViewData["Title"] = "Notes";
+}
+
+    <h1 class="d-inline-block">Notes</h1>
+    <a asp-page="Create">
+        <span class="material-icons">note_add</span>
+    </a>
+
+        <form>
+            <p>
+                <select asp-for="ScriptureNoteBook" asp-items="Model.BookList" onchange="this.form.submit();">
+                    <option value="">All Books</option>
+                </select>
+                <input id="searchString" type="text" asp-for="SearchString" />
+                <input class="material-icons" id="filterBtn" type="submit" value="filter_list">
+                <select asp-for="sortOrder" asp-items="Model.SortOrderList" onchange="this.form.submit();">
+                    <option value="1">Books A-Z</option>
+                    <option value="2">Books Z-A</option>
+                    <option value="3">Newest</option>
+                    <option value="4">Oldest</option>
+                </select>
+                <span class="material-icons">sort</span>
+            </p>
+        </form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ScriptureNote[0].Title)
+            </th>
+            <th>Scripture</th>
+            <th>
+                @Html.DisplayNameFor(model => model.ScriptureNote[0].NoteText)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ScriptureNote)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book)
+                    @Html.DisplayFor(modelItem => item.Chapter):@Html.DisplayFor(modelItem => item.Verse)
+                </td>
+                <td class="tableNote">
+                    @Html.DisplayFor(modelItem => item.NoteText)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.ID"><span class="material-icons">edit</span>
+                    </a> 
+                    <a asp-page="./Details" asp-route-id="@item.ID"><span class="material-icons">auto_stories</span></a> 
+                    <a asp-page="./Delete" asp-route-id="@item.ID"><span class="material-icons">delete</span></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
